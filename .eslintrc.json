@@ -1,3 +1,13 @@
 {
-  "extends": "next/core-web-vitals"
+  "parser": "@typescript-eslint/parser",
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "react/prop-types": "off",
+    "no-console": "warn",
+    "react-hooks/exhaustive-deps": "off"
+  }
 }
