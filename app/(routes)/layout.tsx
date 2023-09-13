@@ -1,13 +1,16 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, Suspense } from "react";
 
 import "globals.css";
+import Loading from "_components/common/loading";
 import Providers from "_utils/providers";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Suspense fallback={<Loading />}>
+          <Providers>{children}</Providers>
+        </Suspense>
       </body>
     </html>
   );
