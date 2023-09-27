@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, QuerySnapshot, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, Query, query, setDoc } from "firebase/firestore";
 
+import queryKeys from "_api/queryKeys";
 import { firebaseCollection, firebaseDb } from "_firebase";
 import { User } from "_types/user";
 
@@ -8,8 +9,8 @@ const usersCollection = collection(firebaseDb, firebaseCollection.users);
 const usersQuery = query(usersCollection);
 
 export const useGetUsersQuery = () =>
-  useQuery<Promise<QuerySnapshot>, Error, Required<User>[]>({
-    queryKey: ["users"],
+  useQuery({
+    queryKey: [queryKeys.getUsers],
     queryFn: getUsers,
     select: (res) => res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
   });
@@ -18,7 +19,7 @@ export const useDeleteUserMutation = () => useMutation({ mutationFn: deleteUser 
 export const useUpdateUserMutation = () => useMutation({ mutationFn: updateUser });
 
 const getUsers = async () => {
-  const querySnapshot = await getDocs(usersQuery);
+  const querySnapshot = await getDocs(usersQuery as Query<User, User>);
   return querySnapshot;
 };
 const createUser = async ({ userName, userAge }: User) => {
