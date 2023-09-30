@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 
@@ -10,7 +10,7 @@ import { googleSignIn } from "_firebase/auth";
 const SignPage = () => {
   const { push } = useRouter();
 
-  const authList = [{ name: "Google", icon: <FcGoogle />, handleClick: googleSignIn }];
+  const authList = useMemo(() => [{ name: "Google", icon: <FcGoogle />, handleClick: googleSignIn }], []);
 
   return (
     <Layout hasHeader={false} isRequiredSignedIn={false}>

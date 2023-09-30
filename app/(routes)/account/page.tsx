@@ -1,15 +1,24 @@
 "use client";
 
 import React, { ChangeEvent, useRef, useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getDownloadURL, ref } from "firebase/storage";
 
+import ProfileImage from "_components/account/profile/image";
+import ProfileText from "_components/account/profile/text";
 import Layout from "_components/common/layout";
 import { firebaseStorage } from "_firebase";
 import { updateUserAccount, uploadProfileImage } from "_firebase/auth";
 import useUserAccount from "_utils/hooks/auth";
 import useSignStatus from "_utils/hooks/isSignedIn";
+
+interface Profile {
+  label: string;
+  type: "image" | "text";
+  src?: string | null;
+  alt?: string | null;
+  defaultValue?: string | null;
+}
 
 const AccountPage = () => {
   const { back } = useRouter();
@@ -17,7 +26,7 @@ const AccountPage = () => {
   const userAccount = useUserAccount();
   const [isSignIn, isLoading] = useSignStatus();
 
-  const accountProfileInfos = [
+  const accountProfile: Profile[] = [
     {
       label: "Profile Image",
       type: "image",
@@ -36,6 +45,22 @@ const AccountPage = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedImageURL, setSelectedImageURL] = useState("");
 
+  const getProfileComponent = (profileItem: Profile) => {
+    switch (profileItem.type) {
+      case "image":
+        return (
+          <ProfileImage
+            handleImageChange={handleImageChange}
+            imageAlt={String(profileItem.alt)}
+            imageSrc={String(profileItem.src)}
+            selectedImageURL={selectedImageURL}
+          />
+        );
+      case "text":
+        return <ProfileText displayNameRef={displayNameRef} defaultText={String(profileItem.defaultValue)} />;
+    }
+  };
+
   const handleAccountEdit = async () => {
     const photoURL = selectedImage
       ? await (async () => {
@@ -48,7 +73,7 @@ const AccountPage = () => {
     await updateUserAccount({ displayName: String(displayNameRef.current?.value), photoURL });
   };
 
-  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files && e.target.files[0];
 
     if (!imageFile) return;
@@ -69,33 +94,10 @@ const AccountPage = () => {
             <>
               <h1 className="text-2xl">Manage Account</h1>
               <div className="mt-20 flex flex-col gap-10">
-                {accountProfileInfos.map((el) => (
-                  <div className="flex justify-between items-center" key={el.label}>
-                    <p className="text-sm">{el.label}</p>
-                    {el.type === "image" ? (
-                      <label className="cursor-pointer hover-translucent rounded-full p-2">
-                        <div className="relative w-[80px] h-[80px]">
-                          <Image
-                            className="object-cover rounded-full"
-                            src={selectedImageURL || String(el.src)}
-                            alt={String(el.alt)}
-                            fill={true}
-                          />
-                        </div>
-                        <input
-                          onChange={handleChangeImage}
-                          accept="image/png, image/gif, image/jpeg"
-                          className="hidden"
-                          type="file"
-                        />
-                      </label>
-                    ) : el.type === "text" ? (
-                      <input
-                        ref={displayNameRef}
-                        className="text-right border rounded-md px-2 py-1"
-                        defaultValue={String(el.defaultValue)}
-                      />
-                    ) : null}
+                {accountProfile.map((profileItem) => (
+                  <div className="flex justify-between items-center" key={profileItem.label}>
+                    <p className="text-sm">{profileItem.label}</p>
+                    {getProfileComponent(profileItem)}
                   </div>
                 ))}
               </div>
