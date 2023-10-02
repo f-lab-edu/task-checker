@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -8,16 +8,12 @@ import Dropdown from "_components/common/dropdown";
 import useSignStatus from "_utils/hooks/isSignedIn";
 import { googleSignOut } from "_firebase/auth";
 import useUserAccount from "_utils/hooks/auth";
-import useOutsideClick from "_utils/hooks/dropdown";
 
 const Header = () => {
   const { push } = useRouter();
 
-  const userMenuRef = useRef(null);
-
   const [isSignedIn, isLoading] = useSignStatus();
   const userAccount = useUserAccount();
-  const [isUserMenuActivated, setUserMenuActivated] = useOutsideClick(userMenuRef, false);
 
   const handleSignOut = () => {
     googleSignOut().then(() => push("/"));
@@ -29,23 +25,21 @@ const Header = () => {
       <div>
         {!isLoading &&
           (isSignedIn ? (
-            <div className="relative">
-              <button
-                onClick={() => setUserMenuActivated((prev) => !prev)}
-                ref={userMenuRef}
-                className="hover-translucent p-1 rounded-full"
-              >
-                <div className="relative w-[30px] h-[30px]">
-                  <Image
-                    className="object-cover rounded-full"
-                    src={String(userAccount?.photoURL)}
-                    alt={String(userAccount?.displayName)}
-                    fill={true}
-                    sizes="100vw"
-                  />
+            <Dropdown
+              buttonComponent={
+                <div className="p-1 rounded-full">
+                  <div className="relative w-[30px] h-[30px]">
+                    <Image
+                      className="object-cover rounded-full"
+                      src={String(userAccount?.photoURL)}
+                      alt={String(userAccount?.displayName)}
+                      fill={true}
+                      sizes="100vw"
+                    />
+                  </div>
                 </div>
-              </button>
-              <Dropdown isActivated={isUserMenuActivated}>
+              }
+              menuComponent={
                 <div>
                   <h3>Account</h3>
                   <div className="flex justify-between items-center gap-5">
@@ -72,8 +66,8 @@ const Header = () => {
                     Log Out
                   </button>
                 </div>
-              </Dropdown>
-            </div>
+              }
+            />
           ) : (
             <button className="hover-translucent px-2" onClick={() => push("/sign")}>
               Sign In / Sign Up
