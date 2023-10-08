@@ -30,7 +30,7 @@ const Layout = ({ children, hasHeader, isRequiredSignedIn }: LayoutPropsType) =>
   return (
     <>
       {hasHeader && <Header />}
-      <main>{children}</main>
+      <main className="bg-stone-200">{children}</main>
     </>
   );
 };

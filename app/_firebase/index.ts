@@ -14,6 +14,7 @@ const firebaseConfig = {
 
 const firebaseCollection = {
   users: "users",
+  boards: "boards",
 };
 
 const app = initializeApp(firebaseConfig);
