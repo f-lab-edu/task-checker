@@ -8,7 +8,7 @@ import ModalProvider from "_components/common/modal/provider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { refetchOnWindowFocus: false, retry: 3 },
+    queries: { refetchOnWindowFocus: false, retry: 3, suspense: true },
     mutations: { onError: () => console.log("에러 발생!"), onSuccess: () => console.log("요청 성공!") },
   },
   queryCache: new QueryCache({ onError: () => console.log("에러 발생!"), onSuccess: () => console.log("요청 성공!") }),
@@ -19,7 +19,6 @@ const Providers = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <Provider>
         <ModalProvider />
-
         {children}
       </Provider>
     </QueryClientProvider>
