@@ -1,6 +1,11 @@
-const queryKeys = {
-  getUsers: "getUsers",
-  getMyBoards: "getMyBoards",
+const usersKeys = {
+  all: ["users"],
+  users: () => [...usersKeys.all],
 };
 
-export default queryKeys;
+const boardsKeys = {
+  all: ["boards"],
+  my: (ownerUID?: string) => [...boardsKeys.all, "my", { ownerUID }],
+};
+
+export { usersKeys, boardsKeys };

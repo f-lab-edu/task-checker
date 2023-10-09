@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, getDocs, Query, query, where } from
 import { ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import queryKeys from "_api/queryKeys";
+import { boardsKeys } from "_api/queryKeys";
 import { firebaseCollection, firebaseDb, firebaseStorage } from "_firebase";
 import { Board } from "_types/boards";
 
@@ -10,7 +10,7 @@ const boardsCollection = collection(firebaseDb, firebaseCollection.boards);
 
 export const useGetMyBoardsQuery = (ownerUID?: string) =>
   useQuery({
-    queryKey: [queryKeys.getMyBoards, ownerUID],
+    queryKey: boardsKeys.my(ownerUID),
     queryFn: () => getMyBoards(ownerUID),
     select: (res) => res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
   });

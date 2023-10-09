@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
-import queryKeys from "_api/queryKeys";
+import { boardsKeys } from "_api/queryKeys";
 import { firebaseStorage } from "_firebase";
 import { uploadBackgroundImage, useCreateBoardMutation } from "_firebase/boards";
 import useUserAccount from "_utils/hooks/auth";
@@ -39,7 +39,7 @@ const CreateBoardModal = () => {
       : process.env.NEXT_PUBLIC_DEFAULT_BACKGROUND_IMAGE_URL;
 
     await createBoard({ boardName: formValues.boardName, ownerUID: userAccount?.uid, backgroundURL });
-    queryClient.refetchQueries([queryKeys.getMyBoards]);
+    queryClient.refetchQueries(boardsKeys.my(userAccount?.uid));
     setModals((prev) => prev.slice(0, -1));
   };
 

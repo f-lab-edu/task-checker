@@ -3,19 +3,21 @@ import Image from "next/image";
 import { AiFillDelete } from "react-icons/ai";
 import { useQueryClient } from "@tanstack/react-query";
 
-import queryKeys from "_api/queryKeys";
+import { boardsKeys } from "_api/queryKeys";
 import { useDeleteBoardMutation } from "_firebase/boards";
 import { Board as BoardType } from "_types/boards";
+import useUserAccount from "_utils/hooks/auth";
 
 const Board = ({ id, boardName, backgroundURL }: BoardType) => {
   const queryClient = useQueryClient();
+  const userAccount = useUserAccount();
 
   const { mutate: deleteBoard } = useDeleteBoardMutation();
 
   const handleBoardDelete = (boardId: string) => () => {
     if (!confirm("삭제하시겠습니까?")) return;
     deleteBoard(boardId);
-    queryClient.refetchQueries([queryKeys.getMyBoards]);
+    queryClient.refetchQueries(boardsKeys.my(userAccount?.uid));
   };
 
   return (

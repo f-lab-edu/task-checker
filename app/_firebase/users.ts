@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addDoc, collection, deleteDoc, doc, getDocs, Query, query, setDoc } from "firebase/firestore";
 
-import queryKeys from "_api/queryKeys";
+import { usersKeys } from "_api/queryKeys";
 import { firebaseCollection, firebaseDb } from "_firebase";
 import { User } from "_types/user";
 
@@ -10,7 +10,7 @@ const usersQuery = query(usersCollection);
 
 export const useGetUsersQuery = () =>
   useQuery({
-    queryKey: [queryKeys.getUsers],
+    queryKey: usersKeys.users(),
     queryFn: getUsers,
     select: (res) => res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
   });
