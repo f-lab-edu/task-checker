@@ -19,7 +19,7 @@ const Board = ({ id, boardName, backgroundURL }: BoardType) => {
   };
 
   return (
-    <div className="relative w-60 h-36 hover-translucent cursor-pointer">
+    <div className="relative w-60 h-36 hover-opacity-translucent cursor-pointer">
       <Image className="rounded-md object-cover" src={String(backgroundURL)} alt={boardName} fill={true} />
       <span className="absolute top-2 left-2 text-white text-lg">{boardName}</span>
       <AiFillDelete onClick={handleBoardDelete(String(id))} className="text-white absolute bottom-2 right-2 text-xl" />
