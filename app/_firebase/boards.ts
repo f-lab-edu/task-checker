@@ -18,13 +18,13 @@ export const useCreateBoardMutation = () => useMutation({ mutationFn: createBoar
 export const useDeleteBoardMutation = () => useMutation({ mutationFn: deleteBoard });
 
 const getBoards = async (ownerUID?: string) => {
-  const myBoardsQuery = query(boardsCollection, where("ownerUID", "==", String(ownerUID)));
+  const myBoardsQuery = query(boardsCollection, where("ownerUID", "==", ownerUID));
   const querySnapshot = await getDocs(myBoardsQuery as Query<Board, Board>);
   return querySnapshot;
 };
 const createBoard = async ({ boardName, ownerUID, backgroundURL }: Board) => {
   if (!boardName || !ownerUID) return alert("모든 정보를 입력해주세요.");
-  const docRef = await addDoc(boardsCollection, { boardName, ownerUID: String(ownerUID), backgroundURL });
+  const docRef = await addDoc(boardsCollection, { boardName, ownerUID: ownerUID, backgroundURL });
   return docRef;
 };
 const deleteBoard = async (boardId: string) => {

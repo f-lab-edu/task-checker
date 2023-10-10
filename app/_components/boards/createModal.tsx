@@ -72,7 +72,7 @@ const CreateBoardModal = () => {
         </Button>
         {selectedImage && (
           <div className="relative w-full h-[120px]">
-            <Image className="object-cover" src={selectedImageURL} alt={String(selectedImage?.name)} fill={true} />
+            <Image className="object-cover" src={selectedImageURL} alt={selectedImage?.name} fill={true} />
           </div>
         )}
         <div className="flex gap-5 justify-end">

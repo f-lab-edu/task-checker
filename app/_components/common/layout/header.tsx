@@ -34,8 +34,8 @@ const Header = () => {
                     <div className="relative w-[30px] h-[30px]">
                       <Image
                         className="object-cover rounded-full"
-                        src={String(userAccount?.photoURL)}
-                        alt={String(userAccount?.displayName)}
+                        src={userAccount!.photoURL!}
+                        alt={userAccount!.displayName!}
                         fill={true}
                         sizes="100vw"
                       />
@@ -49,8 +49,8 @@ const Header = () => {
                       <div className="relative w-[45px] h-[45px]">
                         <Image
                           className="object-cover rounded-full"
-                          src={String(userAccount?.photoURL)}
-                          alt={String(userAccount?.displayName)}
+                          src={userAccount!.photoURL!}
+                          alt={userAccount!.displayName!}
                           fill={true}
                           sizes="100vw"
                         />

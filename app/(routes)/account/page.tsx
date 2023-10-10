@@ -51,13 +51,13 @@ const AccountPage = () => {
         return (
           <ProfileImage
             handleImageChange={handleImageChange}
-            imageAlt={String(profileItem.alt)}
-            imageSrc={String(profileItem.src)}
+            imageAlt={profileItem.alt!}
+            imageSrc={profileItem.src!}
             selectedImageURL={selectedImageURL}
           />
         );
       case "text":
-        return <ProfileText displayNameRef={displayNameRef} defaultText={String(profileItem.defaultValue)} />;
+        return <ProfileText displayNameRef={displayNameRef} defaultText={profileItem.defaultValue!} />;
     }
   };
 
@@ -68,9 +68,9 @@ const AccountPage = () => {
           const storageRef = ref(firebaseStorage, `images/profile/${selectedImage.name}`);
           return await getDownloadURL(storageRef);
         })()
-      : String(userAccount?.photoURL);
+      : userAccount!.photoURL!;
 
-    await updateUserAccount({ displayName: String(displayNameRef.current?.value), photoURL });
+    await updateUserAccount({ displayName: displayNameRef!.current!.value, photoURL });
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
