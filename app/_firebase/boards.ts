@@ -8,7 +8,7 @@ import { Board } from "_types/boards";
 
 const boardsCollection = collection(firebaseDb, firebaseCollection.boards);
 
-export const useGetMyBoardsQuery = (ownerUID?: string) =>
+export const useMyBoardsQuery = (ownerUID?: string) =>
   useQuery({
     queryKey: boardsKeys.my(ownerUID),
     queryFn: () => getBoards(ownerUID),

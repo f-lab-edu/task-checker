@@ -12,11 +12,11 @@ const Board = ({ id, boardName, backgroundURL }: BoardType) => {
   const queryClient = useQueryClient();
   const userAccount = useUserAccount();
 
-  const { mutate: deleteBoard } = useDeleteBoardMutation();
+  const deleteBoard = useDeleteBoardMutation();
 
-  const handleBoardDelete = (boardId: string) => () => {
+  const handleBoardDelete = (boardId: string) => async () => {
     if (!confirm("삭제하시겠습니까?")) return;
-    deleteBoard(boardId);
+    await deleteBoard.mutateAsync(boardId);
     queryClient.refetchQueries(boardsKeys.my(userAccount?.uid));
   };
 

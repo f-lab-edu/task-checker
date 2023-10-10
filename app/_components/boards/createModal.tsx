@@ -24,7 +24,7 @@ const CreateBoardModal = () => {
 
   const { register, handleSubmit } = useForm<FormValues>();
 
-  const { mutateAsync: createBoard } = useCreateBoardMutation();
+  const createBoard = useCreateBoardMutation();
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedImageURL, setSelectedImageURL] = useState("");
@@ -38,7 +38,7 @@ const CreateBoardModal = () => {
         })()
       : process.env.NEXT_PUBLIC_DEFAULT_BACKGROUND_IMAGE_URL;
 
-    await createBoard({ boardName: formValues.boardName, ownerUID: userAccount?.uid, backgroundURL });
+    await createBoard.mutateAsync({ boardName: formValues.boardName, ownerUID: userAccount?.uid, backgroundURL });
     queryClient.refetchQueries(boardsKeys.my(userAccount?.uid));
     modalsDispatch({ type: "delete" });
   };
