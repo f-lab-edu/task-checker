@@ -11,13 +11,13 @@ const boardsCollection = collection(firebaseDb, firebaseCollection.boards);
 export const useGetMyBoardsQuery = (ownerUID?: string) =>
   useQuery({
     queryKey: boardsKeys.my(ownerUID),
-    queryFn: () => getMyBoards(ownerUID),
+    queryFn: () => getBoards(ownerUID),
     select: (res) => res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
   });
 export const useCreateBoardMutation = () => useMutation({ mutationFn: createBoard });
 export const useDeleteBoardMutation = () => useMutation({ mutationFn: deleteBoard });
 
-const getMyBoards = async (ownerUID?: string) => {
+const getBoards = async (ownerUID?: string) => {
   const myBoardsQuery = query(boardsCollection, where("ownerUID", "==", String(ownerUID)));
   const querySnapshot = await getDocs(myBoardsQuery as Query<Board, Board>);
   return querySnapshot;

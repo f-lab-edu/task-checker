@@ -9,8 +9,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { boardsKeys } from "_api/queryKeys";
 import { firebaseStorage } from "_firebase";
 import { uploadBackgroundImage, useCreateBoardMutation } from "_firebase/boards";
+import { modalReducerAtom } from "_stores/modal";
 import useUserAccount from "_utils/hooks/auth";
-import { modalAtom } from "_stores/modal";
 
 interface FormValues {
   boardName: string;
@@ -20,7 +20,7 @@ const CreateBoardModal = () => {
   const queryClient = useQueryClient();
   const userAccount = useUserAccount();
 
-  const setModals = useSetAtom(modalAtom);
+  const modalsDispatch = useSetAtom(modalReducerAtom);
 
   const { register, handleSubmit } = useForm<FormValues>();
 
@@ -40,7 +40,7 @@ const CreateBoardModal = () => {
 
     await createBoard({ boardName: formValues.boardName, ownerUID: userAccount?.uid, backgroundURL });
     queryClient.refetchQueries(boardsKeys.my(userAccount?.uid));
-    setModals((prev) => prev.slice(0, -1));
+    modalsDispatch({ type: "delete" });
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +79,7 @@ const CreateBoardModal = () => {
           <Button color="success" type="submit" variant="contained">
             Create
           </Button>
-          <Button onClick={() => setModals((prev) => prev.slice(0, -1))} color="error" variant="contained">
+          <Button onClick={() => modalsDispatch({ type: "delete" })} color="error" variant="contained">
             Cancel
           </Button>
         </div>

@@ -2,10 +2,10 @@ import React from "react";
 import { useAtomValue } from "jotai";
 
 import Modal from "_components/common/modal";
-import { modalAtom } from "_stores/modal";
+import { modalReducerAtom } from "_stores/modal";
 
 const ModalProvider = () => {
-  const modals = useAtomValue(modalAtom);
+  const modals = useAtomValue(modalReducerAtom);
 
   return (
     <div>
