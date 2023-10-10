@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { boardsKeys } from "_api/queryKeys";
+import { boardsKeys } from "_api/queryKeys/boards";
 import { firebaseStorage } from "_firebase";
 import { uploadBackgroundImage, useCreateBoardMutation } from "_firebase/boards";
 import { modalReducerAtom } from "_stores/modal";

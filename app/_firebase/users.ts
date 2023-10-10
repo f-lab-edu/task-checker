@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addDoc, collection, deleteDoc, doc, getDocs, Query, query, setDoc } from "firebase/firestore";
 
-import { usersKeys } from "_api/queryKeys";
+import { usersKeys } from "_api/queryKeys/users";
 import { firebaseCollection, firebaseDb } from "_firebase";
 import { User } from "_types/user";
 

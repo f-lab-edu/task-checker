@@ -3,7 +3,7 @@ import Image from "next/image";
 import { AiFillDelete } from "react-icons/ai";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { boardsKeys } from "_api/queryKeys";
+import { boardsKeys } from "_api/queryKeys/boards";
 import { useDeleteBoardMutation } from "_firebase/boards";
 import { Board as BoardType } from "_types/boards";
 import useUserAccount from "_utils/hooks/auth";

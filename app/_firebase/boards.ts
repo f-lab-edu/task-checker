@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, getDocs, Query, query, where } from
 import { ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { boardsKeys } from "_api/queryKeys";
+import { boardsKeys } from "_api/queryKeys/boards";
 import { firebaseCollection, firebaseDb, firebaseStorage } from "_firebase";
 import { Board } from "_types/boards";
 
