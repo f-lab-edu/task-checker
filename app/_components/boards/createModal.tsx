@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { boardsKeys } from "_api/queryKeys/boards";
 import { firebaseStorage } from "_firebase";
 import { uploadBackgroundImage, useCreateBoardMutation } from "_firebase/boards";
-import { modalReducerAtom } from "_stores/modal";
+import { closeModal, modalReducerAtom } from "_stores/modal";
 import useUserAccount from "_utils/hooks/auth";
 
 interface FormValues {
@@ -40,7 +40,7 @@ const CreateBoardModal = () => {
 
     await createBoard.mutateAsync({ boardName: formValues.boardName, ownerUID: userAccount?.uid, backgroundURL });
     queryClient.refetchQueries(boardsKeys.my(userAccount?.uid));
-    modalsDispatch({ type: "delete" });
+    modalsDispatch(closeModal());
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +79,7 @@ const CreateBoardModal = () => {
           <Button color="success" type="submit" variant="contained">
             Create
           </Button>
-          <Button onClick={() => modalsDispatch({ type: "delete" })} color="error" variant="contained">
+          <Button onClick={() => modalsDispatch(closeModal())} color="error" variant="contained">
             Cancel
           </Button>
         </div>

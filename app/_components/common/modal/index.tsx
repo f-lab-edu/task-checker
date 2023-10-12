@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import MuiModal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 
-import { modalReducerAtom } from "_stores/modal";
+import { closeModal, modalReducerAtom } from "_stores/modal";
 
 interface ModalPropsType {
   component: ReactNode;
@@ -29,7 +29,7 @@ const Modal = ({ component }: ModalPropsType) => {
   return (
     <MuiModal
       open={true}
-      onClose={() => modalsDispatch({ type: "delete" })}
+      onClose={() => modalsDispatch(closeModal())}
       aria-labelledby="parent-modal-title"
       aria-describedby="parent-modal-description"
     >
