@@ -40,7 +40,7 @@ const TestPage = () => {
     });
   };
   const handleUserDelete = (user: Required<User>) => {
-    deleteUser(String(user.id)).then(() => refetch());
+    deleteUser(user.id).then(() => refetch());
     setUserName("");
     setUserAge(0);
     setEditting(false);
